@@ -1,3 +1,17 @@
+(function() {
+  var script = document.createElement("script");
+  script.onload = function() {
+    var stats = new Stats();
+    document.body.appendChild(stats.dom);
+    requestAnimationFrame(function loop() {
+      stats.update();
+      requestAnimationFrame(loop);
+    });
+  };
+  script.src = "//mrdoob.github.io/stats.js/build/stats.min.js";
+  document.head.appendChild(script);
+})();
+
 let scene, camera, renderer, cube, controls;
 
 scene = new THREE.Scene();
@@ -21,9 +35,13 @@ controls.zoomSpeed = 1.2;
 // Face Model Loader
 
 var loader = new THREE.ObjectLoader();
-loader.load("models/Head.json", function(object) {
+loader.load("models/platform.json", function(object) {
   scene.add(object);
 });
+
+// Lighting. Area Spread
+const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
+scene.add(ambientLight);
 
 camera.position.z = 5;
 
